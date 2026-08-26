@@ -1,0 +1,44 @@
+# Editor and operating-system metadata
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Generated files, caches, and logs
+*.log
+*.tmp
+*.cache
+.cache/
+build/
+dist/
+coverage/
+__pycache__/
+*.py[cod]
+
+# Local state, environment, and secrets
+.env
+.env.*
+!.env.example
+*.local
+*.secret
+*.key
+*.pem
+credentials*
+secrets/
+.ssh/
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+
+# Test artifacts
+.pytest_cache/
+.coverage
+test-results/
