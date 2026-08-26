@@ -102,11 +102,11 @@ Subdirectories are added when they contain an implementation or documentation; t
 
 The initial test fleet covers different capability classes:
 
-- `defuser`: Getac K120 G2 rugged touchscreen/tablet laptop
-- `deb440`: Lenovo ThinkPad T440s with TrackPoint
-- `claymore`: Dell Precision T7810 workstation, sometimes with an external Lenovo TrackPoint keyboard
+- Getac K120 G2 rugged touchscreen/tablet laptop
+- Lenovo ThinkPad T440s with TrackPoint
+- Dell Precision T7810 workstation, sometimes with an external Lenovo TrackPoint keyboard
 
-These names identify test platforms only. They must never select features; detected hardware capabilities do that.
+These systems are test platforms only. Their machine identity must never select features; detected hardware capabilities do that.
 
 ## Installation status
 

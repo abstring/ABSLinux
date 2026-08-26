@@ -2,12 +2,12 @@
 
 ## Principle
 
-ABS Linux selects behavior from hardware and system capabilities, not computer names. The three initial systems—`defuser`, `deb440`, and `claymore`—are useful test fixtures, but their hostnames carry no reliable information about present hardware. Devices can be added, removed, docked, or replaced; a hostname cannot describe those changes.
+ABS Linux selects behavior from hardware and system capabilities, not computer names. Development systems are useful test fixtures, but their hostnames carry no reliable information about present hardware. Devices can be added, removed, docked, or replaced; a hostname cannot describe those changes.
 
 Code like this is therefore prohibited except as a documented last-resort quirk:
 
 ```bash
-if [[ "$(hostname)" == "defuser" ]]; then
+if [[ "$(hostname)" == "some-machine-name" ]]; then
     # ...
 fi
 ```
