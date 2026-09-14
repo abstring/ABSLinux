@@ -1,0 +1,17 @@
+{
+  "logo": {
+    "type": "file",
+    "source": "/usr/share/abs/config/fastfetch/logo.txt"
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "kernel",
+    "wm",
+    "terminal",
+    "cpu",
+    "memory",
+    "battery"
+  ]
+}

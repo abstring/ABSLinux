@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+btop # system monitor
+arandr # manual monitor layouts
+iio-sensor-proxy # future rotation integration; not auto-enabled

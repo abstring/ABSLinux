@@ -1,5 +1,10 @@
-# Application configuration
+# Source-controlled desktop defaults
 
-Application-owned configuration will live in named subdirectories as it is implemented—for example `i3/`, `polybar/`, `rofi/`, `dunst/`, `kitty/`, `fastfetch/`, and `gtk/`.
+`i3`, `i3blocks`, `rofi`, `dunst`, `kitty`, and `fastfetch` are portable, authored ABS
+defaults. They are seeded into new users' `.config` and then belong to the user.
+`wallpaper/hero.png` is an unchanged copy of the root ABS hero artwork (CC0-1.0);
+it is deployed system-wide under `/usr/share/abs/config/wallpaper`.
 
-Specialized interfaces such as the planned LCARS touch launcher should use their own clearly bounded directory and activation profile. They must not leak touch-specific behavior into the portable i3 baseline.
+No private reference dotfiles or host paths are copied. See the inventory and
+ADR for intentional differences from the reference desktop. Shell configuration,
+DPI, custom button mapping, hibernation, and personal autostarts remain untouched.

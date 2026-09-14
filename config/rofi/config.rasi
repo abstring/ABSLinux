@@ -1,0 +1,2 @@
+configuration { modi: "drun,run"; font: "Noto Sans 12"; }
+@theme "DarkBlue"

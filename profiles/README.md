@@ -1,5 +1,11 @@
-# Profiles
+# Capability profiles
 
-Profiles will compose configuration from detected capabilities rather than machine identity. Expected capability-oriented layers include common, laptop, workstation, touchscreen, tablet, and TrackPoint behavior.
+`profiles.json` maps facts to package groups. Common = base + desktop; battery =
+laptop; touchscreen = touch; pointing stick = trackpoint; Bluetooth = bluetooth.
+The live image includes all supported hardware packages. Runtime bar and keyboard
+behavior still depend on capabilities, never the build host's identity.
 
-Machine-specific overrides are a last resort for documented hardware quirks that cannot be expressed through generic udev, libinput, XInput, sysfs, sensor, or display detection. Test-machine hostnames are not profile selectors.
+TrackPoint support currently uses Debian's libinput defaults plus diagnostics;
+custom acceleration/scroll tuning requires native-device testing. Rotation sensor,
+key-capable input, tablet-switch availability, touchpad and multi-monitor facts
+are exposed for diagnostics without activating untested automation.

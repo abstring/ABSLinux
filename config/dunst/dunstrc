@@ -1,0 +1,6 @@
+[global]
+font = Noto Sans 10
+[urgency_normal]
+background = "#101820"
+foreground = "#f0f3f5"
+timeout = 8

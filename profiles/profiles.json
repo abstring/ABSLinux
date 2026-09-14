@@ -1,0 +1,20 @@
+{
+  "common": [
+    "base",
+    "desktop"
+  ],
+  "capabilities": {
+    "battery": [
+      "laptop"
+    ],
+    "touchscreen": [
+      "touch"
+    ],
+    "trackpoint": [
+      "trackpoint"
+    ],
+    "bluetooth": [
+      "bluetooth"
+    ]
+  }
+}

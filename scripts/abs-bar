@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+caps = json.loads(subprocess.check_output(['abs-capabilities'], text=True))
+base = Path(os.environ.get('XDG_CONFIG_HOME', str(Path.home() / '.config')))
+content = (base / 'i3blocks/common.conf').read_text()
+for capability in ('battery', 'bluetooth'):
+    if caps[capability]:
+        content += f'\n[{capability}]\ncommand=abs-status {capability}\ninterval=10\n'
+# Unique private runtime file; no shared /tmp filename or root-owned user state.
+with tempfile.TemporaryDirectory(prefix='abs-bar-', dir=os.environ.get('XDG_RUNTIME_DIR')) as tmp:
+    config = Path(tmp) / 'config'
+    config.write_text(content)
+    subprocess.run(['i3blocks', '-c', str(config)], check=True)

@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+bluez # Bluetooth stack
+blueman # desktop Bluetooth controls

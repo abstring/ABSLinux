@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+xserver-xorg # X11 and Debian driver selection
+xserver-xorg-input-libinput # generic input driver
+x11-xserver-utils # display and X11 controls
+i3-wm # window manager
+i3blocks # reference status bar
+i3lock # screen locking
+xss-lock # lock before logind sleep
+rofi # application launcher
+dunst # notifications
+kitty # portable default terminal
+pipewire-audio # Debian PipeWire audio stack
+pulseaudio-utils # pactl volume bindings
+pavucontrol # audio controls
+network-manager-gnome # network tray and editor
+mate-polkit # desktop authorization agent
+feh # wallpaper
+flameshot # screenshots
+fonts-noto-core # UI fonts
+fonts-dejavu-core # monospace fallback
+adwaita-icon-theme # portable icons
+xdg-user-dirs # standard home directories
+dbus-user-session # session bus
+fastfetch # truthful Debian/ABS system summary

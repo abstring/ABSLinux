@@ -1,3 +1,11 @@
-# Scripts
+# Runtime tools
 
-Runtime integration and maintenance utilities will live here. New executable scripts should be narrowly scoped, safe to rerun where practical, and licensed with `SPDX-License-Identifier: GPL-3.0-or-later`.
+- `abs-capabilities`: read-only sanitized JSON from sysfs and udev.
+- `abs-bar`: generates a private temporary i3blocks config; adds battery/Bluetooth
+  blocks based on capabilities and removes runtime data on exit.
+- `abs-status`: portable status/click actions; per-pack batteries, network state,
+  audio, Bluetooth, screenshots.
+- `abs-touch-keyboard`: starts Onboard only when a touchscreen is detected.
+
+The deployment installs these under `/usr/local/bin`. They contain no hostnames,
+network credentials, personal paths or dependencies on another checkout.

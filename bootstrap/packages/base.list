@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+linux-image-amd64 # Debian kernel
+initramfs-tools # boot image generation
+systemd-sysv # Debian init
+sudo # administration
+locales # locale generation
+ca-certificates # TLS trust
+network-manager # network management
+firmware-linux-free # free device firmware
+firmware-iwlwifi # Intel wireless firmware
+firmware-realtek # Realtek network firmware
+firmware-atheros # Atheros wireless firmware
+python3 # ABS deployment and capability tools
+udev # device discovery and capability properties
