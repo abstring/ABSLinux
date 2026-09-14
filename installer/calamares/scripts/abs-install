@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -euo pipefail
+if [[ ! -d /sys/firmware/efi || ! -f /run/live/medium/live/filesystem.squashfs ]]; then
+    echo 'Start the ABS live ISO in UEFI mode to use this installer.' >&2
+    exit 1
+fi
+# Calamares ships a polkit policy authorizing its executable. Narrow X11 access
+# to local root and revoke it on exit (Debian live launcher approach).
+xhost +si:localuser:root
+trap 'xhost -si:localuser:root' EXIT
+pkexec /usr/bin/calamares

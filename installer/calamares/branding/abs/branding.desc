@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+componentName: abs
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: normal
+windowSize: 960px,640px
+windowPlacement: center
+strings:
+  productName: ABS Linux
+  shortProductName: ABS Linux
+  version: 0.1-dev
+  shortVersion: '0.1'
+  versionedName: "ABS Linux \u2014 Debian 13"
+  shortVersionedName: ABS Linux
+  bootloaderEntryName: ABS Linux
+images:
+  productLogo: hero.png
+  productIcon: hero.png
+  productWelcome: hero.png
+slideshow: show.qml
+slideshowAPI: 2
+style:
+  SidebarBackground: '#101820'
+  SidebarText: '#ffffff'
+  SidebarTextCurrent: '#ffffff'
+  SidebarBackgroundCurrent: '#235b83'

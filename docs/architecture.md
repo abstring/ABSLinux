@@ -2,7 +2,7 @@
 
 ## System boundary
 
-ABS Linux is a curated desktop layer for Debian GNU/Linux, not an independent operating system or Debian fork. Debian remains responsible for the operating-system foundation: boot and service management, package management, security updates, drivers, networking primitives, audio plumbing, and the standard filesystem layout.
+ABS Linux is a curated Debian-based Linux desktop distribution built around i3, designed to remain understandable, controllable, hardware-adaptive, and close to upstream Debian. It does not fork Debian or maintain an independent package base. Debian remains responsible for the operating-system foundation: boot and service management, package management, security updates, drivers, networking primitives, audio plumbing, and the standard filesystem layout.
 
 ABS Linux owns the integration and user experience above that foundation: selected packages, application configuration, themes, capability discovery, profile composition, and a reproducible bootstrap path.
 
@@ -15,7 +15,7 @@ X11
     ↓
 i3
     ↓
-Polybar + Rofi + Dunst
+i3bar/i3blocks + Rofi + Dunst
     ↓
 ABS Linux configuration, scripts, themes, profiles, and integration
 ```
@@ -28,7 +28,7 @@ Configuration layered on Debian is preferred to replacing fundamental Debian mec
 
 ### i3 is the desktop core
 
-i3 is the primary window manager and X11 is the initial display stack. Polybar, Rofi, Dunst, and Kitty form the planned initial shell around it. Specialized interfaces, such as the future LCARS-style touch launcher, are optional integrations activated through capabilities or profiles—not assumptions embedded in the generic i3 configuration.
+i3 is the primary window manager and X11 is the initial display stack. i3bar/i3blocks, Rofi, Dunst, and Kitty form the initial shell around it. See [ADR 0001](adr-0001-i3blocks.md) for the reference-driven bar decision. Specialized interfaces, such as the future LCARS-style touch launcher, are optional integrations activated through capabilities or profiles—not assumptions embedded in the generic i3 configuration.
 
 ### Capability-driven composition
 
@@ -52,7 +52,7 @@ A technically competent Linux user should be able to trace what the bootstrap in
 
 ### Reproducible and idempotent operation
 
-The eventual bootstrap should turn a clean supported Debian installation into the same known configuration. Repeated runs should be safe wherever practical. Operations must validate prerequisites, report changes, avoid overwriting user data silently, and fail clearly when they cannot reach the intended state.
+The shared deployment layer turns a clean supported Debian installation into the reviewed source configuration. Repeated runs should be safe wherever practical. Operations must validate prerequisites, report changes, avoid overwriting user data silently, and fail clearly when they cannot reach the intended state.
 
 ## Configuration ownership
 
@@ -64,3 +64,9 @@ The eventual bootstrap should turn a clean supported Debian installation into th
 - `tests/` validates parsing, composition, configuration, and installer safety.
 
 These boundaries are initial conventions and may evolve through documented changes as implementation experience accumulates.
+
+## Installer foundation
+
+See [Installer architecture](installer-architecture.md) for Calamares/live-build,
+shared deployment, APT ownership, configuration lifecycle and future Guix boundary.
+See [Reference inventory](reference-inventory.md) for observed versus authored behavior.

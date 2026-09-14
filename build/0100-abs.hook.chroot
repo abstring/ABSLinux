@@ -1,0 +1,15 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -eu
+# Runs inside the disposable live-build chroot, never directly on a host.
+test -e /usr/share/abs/bootstrap/install.sh
+# Do not retain live-build mirror entries alongside the explicit Debian sources.
+rm -f /etc/apt/sources.list.d/base.list /etc/apt/sources.list.d/security.list
+: > /etc/apt/sources.list
+# Debian's live launcher works around a stale build fstab. Keep it empty in
+# this image instead; Calamares creates the installed fstab from partitions.
+: > /etc/fstab
+# No machine identity or random seed is shipped to subsequent boots.
+: > /etc/machine-id
+rm -f /var/lib/dbus/machine-id /var/lib/systemd/random-seed
+systemctl enable NetworkManager.service lightdm.service

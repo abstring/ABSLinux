@@ -6,9 +6,13 @@
 
 > **Stop skidding. Control your computer.**
 
-ABS Linux is a curated, opinionated Linux desktop environment built on **Debian Stable + i3**. It is a reproducible configuration, integration, and bootstrap layer that turns a clean Debian installation into a polished, keyboard-first workstation without hiding or replacing Debian underneath.
+ABS Linux is a curated Debian-based Linux desktop distribution built around **i3**,
+designed to remain understandable, controllable, hardware-adaptive, and close to
+upstream **Debian 13 Stable**. Debian supplies the package base and standard system
+mechanisms; ABS supplies desktop integration, capability profiles, and a
+Calamares/live-image installation path.
 
-ABS Linux is not a conventional distribution, a Debian fork, or a new operating-system base. Debian supplies the operating system; ABS supplies an integrated desktop experience.
+ABS does not fork Debian or maintain an independent Debian package base.
 
 ## Philosophy
 
@@ -36,7 +40,7 @@ ABS Linux is not a conventional distribution, a Debian fork, or a new operating-
 - Hostname-specific behavior for known development machines.
 - Supporting every possible workflow or desktop environment.
 
-## Planned architecture
+## Architecture
 
 ```text
 Debian Stable
@@ -47,7 +51,7 @@ X11
     ↓
 i3
     ↓
-Polybar + Rofi + Dunst
+i3bar/i3blocks + Rofi + Dunst
     ↓
 ABS Linux configuration, scripts, themes, profiles, and integration
 ```
@@ -56,7 +60,7 @@ Debian remains responsible for boot, packages, services, hardware enablement, an
 
 ## Hardware-adaptive design
 
-Behavior is driven by capabilities, not hostnames. The eventual detector will expose facts similar to:
+Behavior is driven by capabilities, not hostnames. The read-only `scripts/abs-capabilities` detector exposes facts such as:
 
 ```text
 touchscreen=true
@@ -70,11 +74,17 @@ multi_monitor=true
 
 An external Lenovo USB TrackPoint keyboard should receive TrackPoint tuning even on a Dell workstation. A battery should enable battery UI; a desktop without one should not show it. Touch and rotation controls should appear only when the related hardware is present. Machine-specific profiles are reserved for genuine quirks that generic detection cannot express cleanly. See [Hardware detection](docs/hardware-detection.md).
 
-## Planned core components
+## Core components
 
-The initial desktop is planned around i3, Polybar, Rofi, Dunst, Kitty, NetworkManager, PipeWire, pavucontrol, Blueman, Fastfetch, btop, fzf, ripgrep, fd, bat, eza, and zoxide.
+The foundation uses i3, i3bar/i3blocks, Rofi, Dunst, Kitty, NetworkManager,
+PipeWire, pavucontrol, Fastfetch, screen locking and screenshots. New images use
+LightDM; manual deployment preserves the existing display manager. Battery,
+Bluetooth and touchscreen behavior depend on capabilities. Development and
+optional packages are listed separately and excluded from defaults.
 
-Clipboard history integrated with Rofi, screenshots, screen locking, display management, power management, touchscreen/tablet support, TrackPoint tuning, and multi-monitor handling are planned; exact packages and implementation details remain under evaluation where they have not yet been selected. The LCARS-style touch launcher is also planned as an optional specialized interface, isolated from the generic i3 configuration.
+The working reference uses i3blocks; [ADR 0001](docs/adr-0001-i3blocks.md) explains
+why this supersedes the old Polybar plan. LCARS, automatic rotation, custom
+TrackPoint tuning and hibernation remain future integrations.
 
 ## Repository structure
 
@@ -82,8 +92,10 @@ Clipboard history integrated with Rofi, screenshots, screen locking, display man
 .
 ├── ABSLinux_hero_ad.png  # Existing project hero artwork
 ├── assets/               # Future project artwork and screenshots
-├── bootstrap/            # Installer entry point, package manifests, shared helpers
-├── config/               # Application configuration and future Fastfetch branding
+├── bootstrap/            # Shared deployment and package manifests
+├── build/                # live-build scripts; generated output is ignored
+├── installer/calamares/  # Upstream installer configuration and ABS branding
+├── config/               # Application configuration and Fastfetch branding
 ├── docs/                 # Architecture, capability strategy, and roadmap
 ├── LICENSE               # GPL-3.0 license text
 ├── LICENSES/             # Additional license texts, including CC0-1.0
@@ -96,7 +108,11 @@ Subdirectories are added when they contain an implementation or documentation; t
 
 ## Project status
 
-**ABS Linux is in its foundation stage.** Repository conventions and architecture are being established. Desktop configuration, capability detection, profile composition, and deployment are not yet implemented. The versioned plan is in the [roadmap](docs/roadmap.md).
+**ABS Linux has an implemented installer foundation, not a validated release.**
+Calamares settings, branding, deployment, live-build staging and safe tests are
+implemented. No ISO or completed VM installation is claimed yet. Follow the
+[build and VM guide](build/README.md) for the next acceptance gate, and the
+[roadmap](docs/roadmap.md) for remaining work.
 
 ### Development and test hardware
 
@@ -108,20 +124,31 @@ The initial test fleet covers different capability classes:
 
 These systems are test platforms only. Their machine identity must never select features; detected hardware capabilities do that.
 
-## Installation status
+## Build and installation
 
-> [!WARNING]
-> Installation and bootstrap are **not production-ready**. `bootstrap/install.sh` is currently a non-installing placeholder and deliberately makes no system changes.
-
-The long-term interface is intended to be:
-
-```bash
-git clone <repo>
-cd ABSLinux
-./bootstrap/install.sh
+```sh
+./tests/run.sh
+./build/build-iso.sh --check
+./build/build-iso.sh --prepare-only
+./build/build-iso.sh --build
 ```
 
-Do not expect that workflow to configure a machine yet.
+Install the documented build prerequisites first. Builds create isolated output
+under `build/output`; they never flash a disk. The initial VM target is UEFI/GPT/
+ext4 with Secure Boot disabled. See [Build and VM testing](build/README.md).
+
+For an existing Debian 13 account:
+
+```sh
+./bootstrap/install.sh --user YOUR_USER  # read-only plan
+sudo ./bootstrap/install.sh --user YOUR_USER --install-packages --apply
+```
+
+Read [Manual deployment](bootstrap/README.md) first. Existing user configuration
+conflicts stop deployment before writes. Start with a fresh account for testing.
+Both paths use the [same deployment architecture](docs/installer-architecture.md).
+The [reference inventory](docs/reference-inventory.md) distinguishes working
+Defuser behavior from deliberate portable defaults and deferred integrations.
 
 ## Contributing
 

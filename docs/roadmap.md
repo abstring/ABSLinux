@@ -1,52 +1,35 @@
 # Roadmap
 
-This roadmap describes intended capability milestones, not release dates or promises. Scope may move as hardware testing and upstream package availability inform the design.
+## v0.1 — Installer foundation (active)
 
-## v0.1 — Foundation
-
-- Debian 13 baseline
-- Repository architecture
-- i3 configuration
-- Polybar
-- Rofi
-- Dunst
-- Kitty
-- Baseline package installation
-- Basic hardware capability detection
-- Fastfetch ABS branding
+- Implemented: Debian 13 manifests, portable i3/i3blocks defaults, capability facts,
+  shared dry-run/deployment layer, ABS Calamares settings/branding, live-build
+  staging, temporary-root tests and VM workflow.
+- Next acceptance gate: build first ISO; boot under UEFI/OVMF; install to fresh
+  qcow2 disks with automatic and manual GPT/ext4; reboot and validate offline
+  installation, user ownership, package cleanup and Debian updates.
+- Still experimental: encrypted installations; no Secure Boot acceptance yet.
 
 ## v0.2 — Adaptive hardware
 
-- Laptop/desktop detection
-- Battery awareness
-- Touchscreen detection
-- TrackPoint detection and tuning
-- Multi-monitor handling
-- Hardware profile composition
+- Validate native/external TrackPoint behavior and laptop lid/suspend handling.
+- Exercise touch, multiple batteries, docking and display changes on hardware.
+- Review BatteryBar integration and hotplug/runtime profile refresh.
 
-## v0.3 — Quality of life
+## v0.3 — Desktop quality
 
-- Clipboard manager
-- Screenshot workflow
-- ABS control menu
-- Network/VPN controls
-- Bluetooth controls
-- Audio controls
-- Power menu
-- Lock-screen integration
+- Visual VM review, artwork sizing and consistent app themes.
+- Clipboard/menu improvements, audio/network controls and desktop accessibility.
+- Configuration upgrade/merge and rollback tooling.
 
 ## v0.4 — Tablet/rugged UX
 
-- LCARS launcher integration
-- On-screen keyboard
-- Rotation
-- Tablet mode
-- Touch-friendly controls
-- Physical hardware-button integration
+- Generalize optional LCARS integration and document vendor button quirks.
+- Add tested rotation and tablet-mode behavior with capability-based activation.
+- Evaluate resume/hibernate separately from normal suspend.
 
-## v0.5 — Reproducible deployment
+## v0.5 — Release reproducibility
 
-- Robust bootstrap installer
-- Migration/update mechanism
-- Configuration validation
-- Testing on multiple hardware classes
+- Snapshot-pinned builds, CI VM installation tests and artifact provenance.
+- Package the ABS layer; signed releases and a supported update mechanism.
+- Optional Guix developer environments only after the Debian installer is reliable.

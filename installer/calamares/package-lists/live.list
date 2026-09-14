@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+calamares # upstream graphical installer, no Debian settings fork
+live-boot # live medium discovery
+live-config # live user and session setup
+live-config-systemd # live service setup
+live-tools # live environment utilities
+squashfs-tools # unpack live root
+rsync # Calamares extraction
+# Preinstalled so target bootloader generation works offline.
+grub-efi-amd64 # UEFI GRUB; initial ISO is amd64 UEFI only
+grub-efi-amd64-bin # UEFI GRUB modules
+efibootmgr # EFI boot entries
+dosfstools # EFI partition formatting
+e2fsprogs # ext4 formatting
+cryptsetup # upstream encryption plumbing
+cryptsetup-initramfs # boot encrypted root
+keyutils # encrypted boot support
+qml6-module-qtquick # Calamares Qt6 branding slideshow
+qml6-module-qtquick-window # slideshow window support
+qml6-module-qtquick-layouts # slideshow layout support
+pkexec # privileged installer launch through polkit
+qml6-module-qtqml-workerscript # Qt6 QML runtime
+lightdm # minimal display manager for new installs
+lightdm-gtk-greeter # display-manager greeter

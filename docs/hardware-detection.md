@@ -68,3 +68,14 @@ Even quirk matching should prefer stable device identifiers over hostnames.
 ## Privacy and testability
 
 Diagnostic fixtures must be sanitized before commit. They must not contain usernames, serial numbers, network identifiers, credentials, or other machine-local secrets. Tests should model capability combinations directly so every behavior does not require access to physical hardware.
+
+## Implemented foundation
+
+Run `scripts/abs-capabilities` for JSON facts. It queries udev input properties,
+sysfs battery/DRM/Bluetooth devices, IIO accelerometer channels and tablet-switch
+capability bits. Battery peripherals with `scope=Device` and absent packs are
+excluded. `tablet_mode` means a switch exists, not its current state;
+`hardware_buttons` means key-capable input exists, not a known vendor mapping.
+Rotation/display facts are diagnostic only in this pass. Profile composition is
+in `profiles/profiles.json`; the runtime bar redetects at session/bar startup.
+Tests use synthetic fixtures and do not need physical test machines.

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Install ABS Linux
+Comment=Install ABS Linux on this computer
+Exec=abs-install
+Icon=system-software-install
+Terminal=false
+Categories=System;

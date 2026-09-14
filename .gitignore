@@ -12,7 +12,7 @@ Thumbs.db
 *.tmp
 *.cache
 .cache/
-build/
+/build/output/
 dist/
 coverage/
 __pycache__/
