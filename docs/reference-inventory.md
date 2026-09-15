@@ -22,7 +22,7 @@ files, serial numbers, or user documents were collected into the repository.
 | Sensors | detector sees an accelerometer; no tablet switch exposed | diagnostic capability only; no untested auto-rotation |
 | Touch UI | local LCARS service, Getac P1/F13 wiring, Onboard bindings | optional future integration; generic touch-only Onboard shortcut now |
 | Theme/fonts | Breeze-Dark GTK, Noto, host DPI and cursor-size overrides | Noto/DejaVu and portable dark app defaults; omit host DPI |
-| Wallpaper | feh restores a user-selected wallpaper | existing ABS hero artwork as initial wallpaper |
+| Wallpaper | feh restores a user-selected wallpaper | user-supplied ABSLinux_wallpaper_0.png as default wallpaper |
 | Fastfetch | installed; no user configuration found | ABS text logo with real Debian/system modules |
 | Autostart | KDE/PIM and other personal integrations also running | explicit desktop startup; no blanket personal autostart import |
 | User services | LCARS and AppImage launcher service entries | neither copied to the generic image |

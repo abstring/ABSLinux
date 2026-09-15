@@ -31,3 +31,7 @@ for a later explicit deployment. System-managed payload/scripts may be replaced.
 User edits require a deliberate backup/move of conflicting files before an
 update. There is no transactional rollback or merge tool yet. APT failures and
 I/O failures are reported rather than hidden.
+
+Desktop package installation also configures Brave’s signed stable APT repository.
+New accounts default to Brave for web links. Existing alpha.1 users should follow
+[the scoped update guide](../docs/upgrade-alpha1.md) to preserve their custom configuration.

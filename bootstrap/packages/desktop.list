@@ -22,3 +22,4 @@ adwaita-icon-theme # portable icons
 xdg-user-dirs # standard home directories
 dbus-user-session # session bus
 fastfetch # truthful Debian/ABS system summary
+brave-browser # default browser from Brave stable signed APT repository

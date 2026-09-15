@@ -14,6 +14,10 @@ fi
 [[ -d /sys/firmware/efi ]] || { echo 'UEFI installation required' >&2; exit 1; }
 # Image-local files, not network profiles or arbitrary user state.
 rm -f /usr/share/applications/abs-install.desktop /usr/local/bin/abs-install
+# Debian live-build's chroot marker must not label installed shell prompts.
+if [[ -f /etc/debian_chroot && $(cat /etc/debian_chroot) == live ]]; then
+    rm /etc/debian_chroot
+fi
 # Ensure an encrypted install never leaves key material in world-readable initramfs.
 install -d /etc/initramfs-tools/conf.d
 printf '%s\n' 'UMASK=0077' > /etc/initramfs-tools/conf.d/abs-permissions

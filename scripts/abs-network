@@ -1,0 +1,4 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# NetworkManager lists available Wi-Fi networks and prompts securely for secrets.
+exec kitty --class abs-network --title 'Wi-Fi and Network Setup' nmtui

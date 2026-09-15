@@ -19,6 +19,13 @@ def prepare(work):
     root.mkdir(parents=True)
     subprocess.run([str(repo / 'bootstrap/install.sh'), '--root', str(root), '--skel', '--all-hardware', '--apply'],
                    check=True, stdout=subprocess.DEVNULL)
+    deploy.configure_brave(root)
+    # Builder-only source; build-iso.sh seeds its key before APT reads archives.
+    archives = work / 'config/archives'
+    archives.mkdir(parents=True)
+    (archives / 'brave.list.chroot').write_text(
+        'deb [arch=amd64 signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] '
+        'https://brave-browser-apt-release.s3.brave.com/ stable main\n')
     cal = repo / 'installer/calamares'
     (root / 'etc/calamares').mkdir(parents=True)
     for name in ('settings.conf', 'modules', 'branding'):

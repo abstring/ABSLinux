@@ -26,6 +26,13 @@ def load(name, path):
 deploy = load('deploy', REPO / 'bootstrap/lib/deploy.py')
 detector = load('detector', REPO / 'scripts/abs-capabilities')
 
+def source_files(folder):
+    # Prune output before descending: live-build may have /proc mounted there.
+    for directory, dirs, files in os.walk(REPO / folder):
+        dirs[:] = [d for d in dirs if d not in ('output', '__pycache__')]
+        for name in files:
+            yield Path(directory) / name
+
 class Foundation(unittest.TestCase):
     def test_config_and_execution_order(self):
         cal = REPO / 'installer/calamares'
@@ -58,6 +65,8 @@ class Foundation(unittest.TestCase):
         for name in [*brand['images'].values(), brand['slideshow']]:
             self.assertTrue((branding / name).is_file(), name)
         self.assertEqual((branding / 'hero.png').read_bytes(), (REPO / 'ABSLinux_hero_ad.png').read_bytes())
+        self.assertEqual((REPO / 'config/wallpaper/default.png').read_bytes(),
+                         (REPO / 'ABSLinux_wallpaper_0.png').read_bytes())
 
     def test_manifests(self):
         names = set()
@@ -73,7 +82,7 @@ class Foundation(unittest.TestCase):
                 names.add(name)
                 local.add(name)
         if shutil.which('apt-cache'):
-            for name in sorted(names):
+            for name in sorted(names - {'brave-browser'}):
                 output = subprocess.check_output(['apt-cache', 'show', name], text=True)
                 self.assertIn('Package: ' + name + '\n', output, name)
         for groups in json.loads((REPO / 'profiles/profiles.json').read_text())['capabilities'].values():
@@ -171,8 +180,8 @@ class Foundation(unittest.TestCase):
     def test_script_syntax_and_portability(self):
         shell = []
         for folder in ('bootstrap','build','scripts','installer'):
-            for p in (REPO / folder).rglob('*'):
-                if not p.is_file() or 'output' in p.parts or p.suffix == '.png':
+            for p in source_files(folder):
+                if 'output' in p.parts or not p.is_file() or p.suffix in ('.png', '.gpg'):
                     continue
                 text = p.read_text()
                 if text.startswith('#!'):
@@ -191,6 +200,49 @@ class Foundation(unittest.TestCase):
         if shutil.which('i3'):
             subprocess.run(['i3','-C','-c',str(REPO / 'config/i3/config')], check=True)
 
+    def test_click_action_detaches_from_status_process(self):
+        import time
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            helper = root / 'abs-network'
+            helper.write_text("#!/usr/bin/env python3\nimport os,json\nfrom pathlib import Path\n"
+                              "Path(os.environ['ABS_TEST_RESULT']).write_text(json.dumps("
+                              "{'stdin':os.read(0,100).decode(),'sid':os.getsid(0)}))\n")
+            helper.chmod(0o755)
+            nmcli = root / 'nmcli'
+            nmcli.write_text('#!/bin/sh\necho connected\n')
+            nmcli.chmod(0o755)
+            result_file = root / 'result.json'
+            env = dict(os.environ, PATH=str(root) + ':' + os.environ['PATH'],
+                       BLOCK_BUTTON='1', ABS_TEST_RESULT=str(result_file))
+            result = subprocess.run([str(REPO / 'scripts/abs-status'), 'network'],
+                                    env=env, input='not-for-child', capture_output=True,
+                                    text=True, timeout=3, check=True)
+            self.assertEqual(result.stdout.strip(), 'Net connected')
+            for _ in range(100):
+                if result_file.exists():
+                    break
+                time.sleep(.01)
+            child = json.loads(result_file.read_text())
+            self.assertEqual(child['stdin'], '')
+            self.assertNotEqual(child['sid'], os.getsid(0))
+
+    def test_brave_repository(self):
+        key = REPO / 'bootstrap/apt/brave-browser-archive-keyring.gpg'
+        if shutil.which('gpg'):
+            with tempfile.TemporaryDirectory() as keyhome:
+                packets = subprocess.check_output(['gpg', '--homedir', keyhome, '--batch', '--list-packets', str(key)], text=True)
+            self.assertIn(':public key packet:', packets)
+            self.assertNotIn(':secret', packets)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            deploy.configure_brave(root)
+            source = root / 'etc/apt/sources.list.d/brave-browser-release.sources'
+            self.assertIn('Signed-By: /usr/share/keyrings/brave-browser-archive-keyring.gpg', source.read_text())
+            self.assertEqual(key.read_bytes(), (root / 'usr/share/keyrings' / key.name).read_bytes())
+            deploy.configure_brave(root)
+        self.assertIn('brave-browser', deploy.packages(['desktop']))
+
     def test_rofi_parser(self):
         if not shutil.which('rofi') or not os.environ.get('DISPLAY'):
             self.skipTest('Rofi parser check needs an X display')
@@ -204,8 +256,8 @@ class Foundation(unittest.TestCase):
         patterns = [r'-----BEGIN (?:OPENSSH|RSA|EC|DSA) PRIVATE KEY-----',
                     r'gh[pousr]_[A-Za-z0-9]{30,}', r'AKIA[A-Z0-9]{16}']
         for folder in ('bootstrap','config','profiles','scripts','installer','build'):
-            for p in (REPO / folder).rglob('*'):
-                if p.is_file() and 'output' not in p.parts and p.suffix != '.png':
+            for p in source_files(folder):
+                if 'output' not in p.parts and p.is_file() and p.suffix not in ('.png', '.gpg'):
                     text = p.read_text()
                     for pattern in patterns:
                         self.assertIsNone(re.search(pattern,text), str(p))

@@ -9,7 +9,7 @@ an ISO to any physical device. Budget at least 20 GiB free space (30 GiB advised
 
 ```sh
 sudo apt-get update
-sudo apt-get install live-build debootstrap squashfs-tools xorriso \
+sudo apt-get install live-build debootstrap dctrl-tools squashfs-tools xorriso \
   grub-common grub-efi-amd64-bin mtools dosfstools python3 python3-yaml \
   shellcheck qemu-system-x86 qemu-utils ovmf
 ```
@@ -43,7 +43,11 @@ Do not recursively delete a tree that still has mounted filesystems.
 
 Only `--build` requires host build prerequisites. The script fails on errors and
 does not start Calamares, format disks, change the developer desktop, or flash USB.
-Builds follow moving Debian mirrors; byte reproducibility is not yet claimed.
+Brave comes from its upstream signed stable repository. CA certificates are
+included at debootstrap time so its HTTPS index is authenticated before package
+installation. The build script seeds the scoped key after bootstrap and uses
+host tools for binary packaging (`--build-with-chroot false`), avoiding a second
+temporary APT environment. Builds follow moving Debian and Brave mirrors; byte reproducibility is not yet claimed.
 
 ## First VM boot and installation
 

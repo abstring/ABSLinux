@@ -33,6 +33,16 @@ def groups_for(caps):
     return profiles['common'] + [g for cap, groups in profiles['capabilities'].items()
                                  if caps.get(cap, False) for g in groups]
 
+def configure_brave(root):
+    for source, destination in (
+        ('brave-browser-archive-keyring.gpg', 'usr/share/keyrings/brave-browser-archive-keyring.gpg'),
+        ('brave-browser-release.sources', 'etc/apt/sources.list.d/brave-browser-release.sources'),
+    ):
+        target = target_path(root, destination)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(SOURCE / 'bootstrap/apt' / source, target)
+        target.chmod(0o644)
+
 def target_path(root, relative):
     path = root / relative
     # Refuse symlink traversal, including a symlink destination, before writing.
@@ -136,6 +146,7 @@ def main():
     if root == Path('/') and os.geteuid() != 0:
         raise ValueError('--apply to / requires root')
     if args.install_packages:
+        configure_brave(root)
         subprocess.run(['apt-get', 'update'], check=True)
         subprocess.run(['apt-get', 'install', '--no-install-recommends', '-y', *selected], check=True)
     apply_files(entries, root)

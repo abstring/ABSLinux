@@ -18,10 +18,14 @@ ABS does not fork Debian or maintain an independent Debian package base.
 
 Download the versioned ISO and `SHA256SUMS` from
 [GitHub Releases](https://github.com/abstring/ABSLinux/releases).
-The first preview is [v0.1.0-alpha.1](https://github.com/abstring/ABSLinux/releases/tag/v0.1.0-alpha.1).
+The current preview is [v0.1.0-alpha.2](https://github.com/abstring/ABSLinux/releases/tag/v0.1.0-alpha.2).
 It has passed QEMU UEFI installation checks; hardware validation is still pending.
 Use UEFI with Secure Boot disabled for this preview. Read the release notes and
 verify the ISO checksum before use.
+
+Already running alpha.1? Follow the [existing-install update guide](docs/upgrade-alpha1.md).
+Brave is included as the default browser. **Super+N** opens network setup and
+**Super+B** opens the browser.
 
 See [release versioning](docs/releases.md) for how subsequent builds are numbered.
 
@@ -163,6 +167,10 @@ The [reference inventory](docs/reference-inventory.md) distinguishes working
 Defuser behavior from deliberate portable defaults and deferred integrations.
 
 ## Contributing
+
+The phrase **“work on issues”** starts the inspect, plan, approve, implement,
+validate and report workflow in [AGENTS.md](AGENTS.md). Approval of an iteration
+also covers its issue updates, commits and push.
 
 Issues and focused pull requests are welcome while conventions settle. Please keep changes understandable, capability-driven, upstream-first, and safe to rerun. Avoid hostname checks, committed machine-local state, and broad system modifications. New executable scripts should use appropriate strict Bash practices and include `SPDX-License-Identifier: GPL-3.0-or-later`.
 

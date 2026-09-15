@@ -36,8 +36,11 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec i3-nagbar -t warning -m 'End this session?' -B 'Log out' 'i3-msg exit'
 bindsym $mod+Ctrl+l exec --no-startup-id loginctl lock-session
 bindsym $mod+Shift+s exec --no-startup-id systemctl suspend
+bindsym $mod+n exec --no-startup-id abs-network
+bindsym $mod+b exec --no-startup-id brave-browser
 bindsym $mod+t exec --no-startup-id abs-touch-keyboard
-bindsym Print exec --no-startup-id flameshot gui
+bindsym --release Print exec --no-startup-id abs-screenshot
+bindsym $mod+Shift+Escape exec --no-startup-id abs-screenshot --cancel
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -49,7 +52,8 @@ exec --no-startup-id nm-applet
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id dunst
 exec --no-startup-id xdg-user-dirs-update
-exec --no-startup-id feh --bg-fill /usr/share/abs/config/wallpaper/hero.png
+exec --no-startup-id feh --bg-max /usr/share/abs/config/wallpaper/default.png
+for_window [class="^abs-network$"] floating enable, resize set 850 550, move position center
 for_window [class="(?i)^onboard$"] floating enable, sticky enable
 bar {
     status_command abs-bar

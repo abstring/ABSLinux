@@ -1,0 +1,8 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Let bar mouse grabs finish before Flameshot captures keyboard/pointer input.
+case "${1:-}" in
+    --cancel) pkill -u "$(id -u)" -x flameshot || true ;;
+    '') sleep 0.3; exec flameshot gui ;;
+    *) echo 'Usage: abs-screenshot [--cancel]' >&2; exit 2 ;;
+esac

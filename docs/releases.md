@@ -10,6 +10,7 @@ prefix. This is the ABS integration version, independent of Debian's version.
 Keep Debian's `/etc/os-release` unchanged.
 
 - `0.1.0-alpha.1`: first VM-tested installer preview.
+- `0.1.0-alpha.2`: first issue iteration, desktop controls and Brave browser.
 - Increment the alpha number (`0.1.0-alpha.2`, `.3`, ...) for every subsequent
   published preview, including rebuilt images with changed Debian packages.
 - Use `0.1.0-beta.1` once planned scope is complete and hardware validation is

@@ -15,7 +15,7 @@ esac
 command -v python3 >/dev/null || { echo "Missing prerequisite: python3" >&2; exit 1; }
 python3 -c 'import yaml' || { echo 'Install python3-yaml' >&2; exit 1; }
 if [[ $mode != --prepare-only ]]; then
-    for tool in lb debootstrap xorriso mksquashfs grub-mkstandalone mcopy mkfs.vfat; do
+    for tool in lb debootstrap grep-dctrl xorriso mksquashfs grub-mkstandalone mcopy mkfs.vfat; do
         command -v "$tool" >/dev/null || { echo "Missing $tool; see build/README.md prerequisites" >&2; exit 1; }
     done
     [[ $(dpkg --print-architecture) == amd64 ]] || { echo 'amd64 build host required' >&2; exit 1; }
@@ -36,14 +36,23 @@ available=$(df -Pk "$work" | awk 'NR == 2 {print $4}')
 (( available >= 20971520 )) || { echo 'At least 20 GiB free space is required' >&2; exit 1; }
 cd "$work"
 lb config --ignore-system-defaults --mode debian --distribution trixie --architectures amd64 \
+    --build-with-chroot false --debootstrap-options "--include=ca-certificates" \
     --archive-areas 'main non-free-firmware' --binary-images iso-hybrid \
     --bootloaders grub-efi --uefi-secure-boot disable --debian-installer none \
     --apt-recommends false --apt-indices true --firmware-chroot false --memtest none \
     --chroot-filesystem squashfs --image-name "abs-linux-$version" \
     --bootappend-live 'boot=live components username=live hostname=abs-live locales=en_US.UTF-8 keyboard-layouts=us'
+# APT reads extra archives before live-build copies includes. Seed the scoped
+# public key into the freshly bootstrapped build root before that first read.
 if (( EUID == 0 )); then
+    lb bootstrap
+    install -Dm644 "$repo/bootstrap/apt/brave-browser-archive-keyring.gpg" \
+        chroot/usr/share/keyrings/brave-browser-archive-keyring.gpg
     lb build
 else
+    sudo lb bootstrap
+    sudo install -Dm644 "$repo/bootstrap/apt/brave-browser-archive-keyring.gpg" \
+        chroot/usr/share/keyrings/brave-browser-archive-keyring.gpg
     sudo lb build
 fi
 iso=("$work"/*.iso)

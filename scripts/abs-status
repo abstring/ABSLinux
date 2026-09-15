@@ -17,10 +17,11 @@ def read(path):
 
 kind = sys.argv[1]
 if os.environ.get('BLOCK_BUTTON') == '1':
-    commands = {'network':['nm-connection-editor'], 'audio':['pavucontrol'],
-                'bluetooth':['blueman-manager'], 'screenshot':['flameshot','gui']}
+    commands = {'network':['abs-network'], 'audio':['pavucontrol'],
+                'bluetooth':['blueman-manager'], 'screenshot':['abs-screenshot']}
     if kind in commands:
-        subprocess.Popen(commands[kind], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(commands[kind], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL, start_new_session=True)
 try:
     if kind == 'battery':
         batteries = [p for p in Path('/sys/class/power_supply').glob('*')
