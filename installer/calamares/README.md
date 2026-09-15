@@ -15,5 +15,6 @@ image/installer-specific packages to the shared manifests. No Calamares fork,
 Debian settings package, or network-dependent bootloader helper is required.
 
 See [architecture](../../docs/installer-architecture.md), [build and VM tests](../../build/README.md),
-and [manual installation](../../bootstrap/README.md). Configured is not the same
-as boot-tested: this pass has not produced an ISO or completed a VM installation.
+and [manual installation](../../bootstrap/README.md). Automatic and manual/offline
+UEFI/ext4 installs have passed QEMU checks; see the dated
+[validation report](../../docs/vm-validation.md) for exact coverage.

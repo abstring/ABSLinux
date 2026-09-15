@@ -84,16 +84,45 @@ The installer launcher rejects a non-live or non-UEFI environment.
 6. Encryption, ESP reuse, hardware suspend, touchscreen and native TrackPoint
    require separate test runs. Do not treat syntax tests as boot/install evidence.
 
-## Evidence for this pass
+## QEMU screenshot monitoring
 
-Safe staging and automated tests were run on the reference host. The exact
-live-build configuration options were also accepted by the extracted Trixie
-`lb config` command in a disposable directory. Build packages
-were downloaded/extracted to a temporary directory for inspection; they were not
-installed. `live-build` is absent, so prerequisite checking stops with “Missing
-lb”. No ISO was built and no VM installation was performed in this pass.
+For a headless guest, add these options to the QEMU command above:
 
-Before the first VM boot: install the prerequisites above, pass `--check`, run
-`--build`, and boot the resulting ISO using the VM command. Before calling the
-installer reliable: complete automatic/manual ext4 and offline installation,
-reboot, inspect the installed system, and correct any integration failures found.
+```sh
+-display none -qmp unix:/absolute/path/to/vm/qmp.sock,server=on,wait=off
+```
+
+QEMU's QMP `screendump` captures the actual guest framebuffer. Run this with
+Python 3, using paths writable by the QEMU process owner:
+
+```python
+import json
+import socket
+
+sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+sock.connect("/absolute/path/to/vm/qmp.sock")
+stream = sock.makefile("rwb", buffering=0)
+json.loads(stream.readline())  # greeting
+
+def call(command, arguments=None):
+    stream.write((json.dumps({"execute": command,
+                              "arguments": arguments or {}}) + "\n").encode())
+    while True:
+        reply = json.loads(stream.readline())
+        if "error" in reply:
+            raise RuntimeError(reply["error"])
+        if "return" in reply:
+            return reply["return"]
+
+call("qmp_capabilities")
+call("screendump", {"filename": "/absolute/path/to/vm/screenshot.png",
+                    "format": "png"})
+```
+
+## Validation evidence
+
+The 2026-09-14 build and QEMU tests passed the UEFI/ext4 VM acceptance gate.
+See [the validation report](../docs/vm-validation.md) for the final ISO checksum,
+build versions, automatic/manual/offline results, screenshots and remaining limits.
+Build outputs, VM disks and raw screenshots are retained locally under
+`build/output/` and excluded from Git. No physical disk was passed into QEMU.

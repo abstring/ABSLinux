@@ -22,3 +22,4 @@ pkexec # privileged installer launch through polkit
 qml6-module-qtqml-workerscript # Qt6 QML runtime
 lightdm # minimal display manager for new installs
 lightdm-gtk-greeter # display-manager greeter
+user-setup # live-config creates the live account through this package

@@ -48,13 +48,6 @@ def prepare(work):
     lightdm = root / 'etc/lightdm/lightdm.conf.d'
     lightdm.mkdir(parents=True)
     (lightdm / '50-abs.conf').write_text('[Seat:*]\nuser-session=i3\n')
-    sources = root / 'etc/apt/sources.list.d'
-    sources.mkdir(parents=True)
-    (sources / 'abs.sources').write_text(
-        'Types: deb\nURIs: https://deb.debian.org/debian\nSuites: trixie trixie-updates\n'
-        'Components: main non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n\n'
-        'Types: deb\nURIs: https://security.debian.org/debian-security\nSuites: trixie-security\n'
-        'Components: main non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n')
     print(work)
 
 if __name__ == '__main__':

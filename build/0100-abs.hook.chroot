@@ -3,9 +3,7 @@
 set -eu
 # Runs inside the disposable live-build chroot, never directly on a host.
 test -e /usr/share/abs/bootstrap/install.sh
-# Do not retain live-build mirror entries alongside the explicit Debian sources.
-rm -f /etc/apt/sources.list.d/base.list /etc/apt/sources.list.d/security.list
-: > /etc/apt/sources.list
+# Debian live-build owns the final APT sources; do not add duplicate entries.
 # Debian's live launcher works around a stale build fstab. Keep it empty in
 # this image instead; Calamares creates the installed fstab from partitions.
 : > /etc/fstab

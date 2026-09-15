@@ -12,3 +12,4 @@ firmware-realtek # Realtek network firmware
 firmware-atheros # Atheros wireless firmware
 python3 # ABS deployment and capability tools
 udev # device discovery and capability properties
+console-setup # console fonts and keyboard setup used by initramfs/live-config

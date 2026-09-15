@@ -162,6 +162,9 @@ class Foundation(unittest.TestCase):
                 prep.prepare(work)
             packages = (work / 'config/package-lists/abs.list.chroot').read_text().splitlines()
             self.assertIn('grub-efi-amd64', packages)
+            self.assertIn('user-setup', packages)
+            self.assertIn('console-setup', packages)
+            self.assertFalse((root / 'etc/apt/sources.list.d/abs.sources').exists())
             self.assertIn('qml6-module-qtquick', packages)
             self.assertNotIn('calamares-settings-debian', packages)
 
@@ -187,6 +190,14 @@ class Foundation(unittest.TestCase):
             print('NOTE: shellcheck unavailable; Bash syntax checked')
         if shutil.which('i3'):
             subprocess.run(['i3','-C','-c',str(REPO / 'config/i3/config')], check=True)
+
+    def test_rofi_parser(self):
+        if not shutil.which('rofi') or not os.environ.get('DISPLAY'):
+            self.skipTest('Rofi parser check needs an X display')
+        result = subprocess.check_output(['rofi', '-config', str(REPO / 'config/rofi/config.rasi'),
+                                          '-dump-config'], text=True)
+        self.assertRegex(result, r'(?:modi|modes): "drun,run";')
+        self.assertRegex(result, r'(?m)^\s*font: "Noto Sans 12";')
 
     def test_no_obvious_secret_material(self):
         # Scan only distributable source, not prompts or developer home state.

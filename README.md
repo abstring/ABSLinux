@@ -108,11 +108,12 @@ Subdirectories are added when they contain an implementation or documentation; t
 
 ## Project status
 
-**ABS Linux has an implemented installer foundation, not a validated release.**
-Calamares settings, branding, deployment, live-build staging and safe tests are
-implemented. No ISO or completed VM installation is claimed yet. Follow the
-[build and VM guide](build/README.md) for the next acceptance gate, and the
-[roadmap](docs/roadmap.md) for remaining work.
+**ABS Linux has a VM-tested installer foundation.** The first ISO boots under
+UEFI/OVMF and installs a working Debian 13/i3 system. Automatic ext4 with swap
+and manual ext4 installation without networking have passed installation and
+independent disk boot checks. See the [validation report](docs/vm-validation.md)
+for artifact checksums, screenshots, exact test coverage and remaining limits.
+Hardware validation and release hardening remain on the [roadmap](docs/roadmap.md).
 
 ### Development and test hardware
 

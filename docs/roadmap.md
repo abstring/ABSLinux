@@ -5,9 +5,11 @@
 - Implemented: Debian 13 manifests, portable i3/i3blocks defaults, capability facts,
   shared dry-run/deployment layer, ABS Calamares settings/branding, live-build
   staging, temporary-root tests and VM workflow.
-- Next acceptance gate: build first ISO; boot under UEFI/OVMF; install to fresh
-  qcow2 disks with automatic and manual GPT/ext4; reboot and validate offline
-  installation, user ownership, package cleanup and Debian updates.
+- VM gate passed: ISO build, UEFI/OVMF boot, automatic GPT/ext4 with swap,
+  manual GPT/ext4 without networking, independent disk boot, user ownership,
+  package cleanup and Debian updates. See [evidence](vm-validation.md).
+- Next acceptance gate: fresh-disk hardware installation and desktop validation;
+  separately exercise existing ESP reuse and recovery paths.
 - Still experimental: encrypted installations; no Secure Boot acceptance yet.
 
 ## v0.2 — Adaptive hardware
