@@ -10,7 +10,8 @@ an ISO to any physical device. Budget at least 20 GiB free space (30 GiB advised
 ```sh
 sudo apt-get update
 sudo apt-get install live-build debootstrap dctrl-tools squashfs-tools xorriso \
-  grub-common grub-efi-amd64-bin mtools dosfstools python3 python3-yaml \
+  grub-common grub-efi-amd64-bin grub-efi-ia32-bin grub-pc-bin isolinux \
+  librsvg2-bin fonts-dejavu-core mtools dosfstools python3 python3-yaml \
   shellcheck qemu-system-x86 qemu-utils ovmf
 ```
 

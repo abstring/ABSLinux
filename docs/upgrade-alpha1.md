@@ -96,7 +96,9 @@ This uses the new supplied wallpaper without cropping the artwork.
   use **Radio** to enable it; physical radio switches must also be enabled.
 - **Browser:** press **Super+B**, or select Brave in Rofi. HTTP/HTTPS links open Brave.
 - **Screenshot:** press **Print** or click Screenshot, then drag a rectangle.
-  **Ctrl+S** saves, **Ctrl+C** copies, and **Esc** cancels. **Super+Shift+Esc**
+  **Ctrl+A** selects the whole screen without dragging; **Ctrl+S** saves,
+  **Ctrl+C** copies, and **Esc** cancels. Mouse-region selection remains under
+  investigation in issue #1. **Super+Shift+Esc**
   terminates your Flameshot process if capture becomes stuck; this also closes
   unsaved Flameshot edits. No machine restart is needed for that recovery.
 - Check input recovery, Wi-Fi association and the boot menu on the X13 and report

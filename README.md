@@ -127,7 +127,8 @@ Subdirectories are added when they contain an implementation or documentation; t
 UEFI/OVMF and installs a working Debian 13/i3 system. Automatic ext4 with swap
 and manual ext4 installation without networking have passed installation and
 independent disk boot checks. See the [validation report](docs/vm-validation.md)
-for artifact checksums, screenshots, exact test coverage and remaining limits.
+for the initial artifact, and the [alpha.2 report](docs/validation-alpha2.md)
+for current checksums, test coverage and remaining issues.
 Hardware validation and release hardening remain on the [roadmap](docs/roadmap.md).
 
 ### Development and test hardware

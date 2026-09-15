@@ -15,8 +15,13 @@ esac
 command -v python3 >/dev/null || { echo "Missing prerequisite: python3" >&2; exit 1; }
 python3 -c 'import yaml' || { echo 'Install python3-yaml' >&2; exit 1; }
 if [[ $mode != --prepare-only ]]; then
-    for tool in lb debootstrap grep-dctrl xorriso mksquashfs grub-mkstandalone mcopy mkfs.vfat; do
+    for tool in lb debootstrap grep-dctrl rsvg-convert xorriso mksquashfs grub-mkstandalone mcopy mkfs.vfat; do
         command -v "$tool" >/dev/null || { echo "Missing $tool; see build/README.md prerequisites" >&2; exit 1; }
+    done
+    for path in /usr/lib/grub/x86_64-efi/configfile.mod /usr/lib/grub/i386-efi/configfile.mod \
+                /usr/lib/grub/i386-pc/boot_hybrid.img /usr/lib/ISOLINUX/isohdpfx.bin \
+                /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf; do
+        [[ -f $path ]] || { echo "Missing $path; see build/README.md prerequisites" >&2; exit 1; }
     done
     [[ $(dpkg --print-architecture) == amd64 ]] || { echo 'amd64 build host required' >&2; exit 1; }
     # shellcheck disable=SC1091
