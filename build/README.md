@@ -32,7 +32,8 @@ No argument performs `--check`. This deliberate default makes the command safe
 to explore. Each prepare/build creates a unique `build/output/run-*` directory.
 The generated `config/includes.chroot`, package lists and hook are reviewable.
 Nothing copies a home directory, network profiles, or the running root filesystem.
-Successful builds leave an `abs-linux*.iso`, live-build package/build metadata,
+Successful builds read `VERSION` and leave an
+`abs-linux-<version>-amd64.hybrid.iso`, live-build package/build metadata,
 and `SHA256SUMS` inside that run directory. Generated files are gitignored.
 
 A rerun starts fresh; it never deletes an earlier chroot or mounted build tree.
@@ -126,3 +127,5 @@ See [the validation report](../docs/vm-validation.md) for the final ISO checksum
 build versions, automatic/manual/offline results, screenshots and remaining limits.
 Build outputs, VM disks and raw screenshots are retained locally under
 `build/output/` and excluded from Git. No physical disk was passed into QEMU.
+
+Release naming, checksums and publication are documented in [Releases](../docs/releases.md).

@@ -3,6 +3,10 @@
 set -euo pipefail
 repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 export PYTHONDONTWRITEBYTECODE=1
+version=$(<"$repo/VERSION")
+[[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[1-9][0-9]*)?$ ]] || {
+    echo 'Invalid VERSION; see docs/releases.md' >&2; exit 1;
+}
 case "${1:---check}" in
     --check|--prepare-only|--build) mode=${1:---check} ;;
     *) echo "Usage: $0 [--check|--prepare-only|--build]" >&2; exit 2 ;;
@@ -35,7 +39,7 @@ lb config --ignore-system-defaults --mode debian --distribution trixie --archite
     --archive-areas 'main non-free-firmware' --binary-images iso-hybrid \
     --bootloaders grub-efi --uefi-secure-boot disable --debian-installer none \
     --apt-recommends false --apt-indices true --firmware-chroot false --memtest none \
-    --chroot-filesystem squashfs --image-name abs-linux \
+    --chroot-filesystem squashfs --image-name "abs-linux-$version" \
     --bootappend-live 'boot=live components username=live hostname=abs-live locales=en_US.UTF-8 keyboard-layouts=us'
 if (( EUID == 0 )); then
     lb build
@@ -44,5 +48,5 @@ else
 fi
 iso=("$work"/*.iso)
 [[ -f ${iso[0]} ]] || { echo "No ISO produced; inspect $work" >&2; exit 1; }
-sha256sum "${iso[@]}" > "$work/SHA256SUMS"
+sha256sum -- "${iso[@]##*/}" > "$work/SHA256SUMS"
 printf 'ISO build complete: %s\n' "${iso[@]}"

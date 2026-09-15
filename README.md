@@ -14,6 +14,17 @@ Calamares/live-image installation path.
 
 ABS does not fork Debian or maintain an independent Debian package base.
 
+## Download
+
+Download the versioned ISO and `SHA256SUMS` from
+[GitHub Releases](https://github.com/abstring/ABSLinux/releases).
+The first preview is [v0.1.0-alpha.1](https://github.com/abstring/ABSLinux/releases/tag/v0.1.0-alpha.1).
+It has passed QEMU UEFI installation checks; hardware validation is still pending.
+Use UEFI with Secure Boot disabled for this preview. Read the release notes and
+verify the ISO checksum before use.
+
+See [release versioning](docs/releases.md) for how subsequent builds are numbered.
+
 ## Philosophy
 
 - Keep Debian Stable underneath and preserve its standard mechanisms.
